@@ -1,0 +1,12 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="DESKTOP-G59BG80_SQLEXPRESS.DW-Studenti"
+  DTS:DTSID="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectRetryCount="1"
+      DTS:ConnectRetryInterval="5"
+      DTS:ConnectionString="Data Source=DESKTOP-G59BG80\SQLEXPRESS;Initial Catalog=DW-Studenti;Provider=SQLNCLI11.1;Integrated Security=SSPI;Application Name=SSIS-ETL_proces_StudentiDW-{3C9D213E-7D71-438B-81A5-2FB51A1CF082}DESKTOP-G59BG80\SQLEXPRESS.DW-Studenti;Auto Translate=False;" />
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

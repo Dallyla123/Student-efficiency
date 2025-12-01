@@ -1,0 +1,3357 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/10/2025 9:08:24 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-G59BG80"
+  DTS:CreatorName="DESKTOP-G59BG80\bendz"
+  DTS:DTSID="{6D496F07-8165-49C4-81D9-B9FA8611BE73}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Fact_efikasnost_nastave"
+  DTS:PackageType="5"
+  DTS:VersionBuild="43"
+  DTS:VersionGUID="{4DFE215A-0CE6-448A-8E62-B6CE7AC4A137}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\DROP and CREATE Fact_Uspesnost"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{9BE633DB-56A8-4ABB-ABC0-CC34A7D242E8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="DROP and CREATE Fact_Uspesnost"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}"
+          SQLTask:SqlStatementSource="&#xA;IF EXISTS &#xA;(SELECT * FROM sysobjects WHERE id = OBJECT_ID(N'Fact_efikasnost_nastave')) &#xA;BEGIN &#xA;DROP TABLE [dbo].[Fact_efikasnost_nastave] &#xA;&#xA;&#xA;CREATE TABLE [dbo].[Fact_efikasnost_nastave](&#xA;&#x9;[efikasnost_nastave_SID] [int] IDENTITY(1,1) NOT NULL,&#xA;&#x9;[vreme_SID] [int] NOT NULL,&#xA;&#x9;[predmet_SID] [int] NOT NULL,&#xA;&#x9;[prijava_SID] [int] NOT NULL,&#xA;&#x9;[prolaznost_po_predmetu] [float] NULL,&#xA;&#x9;[prosecna_ocena_po_predmetu] [float] NULL,&#xA;&#x9;[prosecna_ocena_sa_lab] [float] NULL,&#xA;&#x9;[prosecna_ocena_bez_lab] [float] NULL,&#xA; CONSTRAINT [PK_Fact_efikasnost_nastave] PRIMARY KEY CLUSTERED &#xA;(&#xA;&#x9;[efikasnost_nastave_SID] ASC&#xA;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]&#xA;) ON [PRIMARY]&#xA;&#xA;&#xA;ALTER TABLE [dbo].[Fact_efikasnost_nastave]  WITH CHECK ADD  CONSTRAINT [FK_Fact_efikasnost_nastave_Dim_Predmet] FOREIGN KEY([predmet_SID])&#xA;REFERENCES [dbo].[Dim_Predmet] ([predmet_SID])&#xA;&#xA;&#xA;ALTER TABLE [dbo].[Fact_efikasnost_nastave] CHECK CONSTRAINT [FK_Fact_efikasnost_nastave_Dim_Predmet]&#xA;&#xA;&#xA;ALTER TABLE [dbo].[Fact_efikasnost_nastave]  WITH CHECK ADD  CONSTRAINT [FK_Fact_efikasnost_nastave_Dim_Prijava] FOREIGN KEY([prijava_SID])&#xA;REFERENCES [dbo].[Dim_Prijava] ([prijava_SID])&#xA;&#xA;&#xA;ALTER TABLE [dbo].[Fact_efikasnost_nastave] CHECK CONSTRAINT [FK_Fact_efikasnost_nastave_Dim_Prijava]&#xA;&#xA;&#xA;ALTER TABLE [dbo].[Fact_efikasnost_nastave]  WITH CHECK ADD  CONSTRAINT [FK_Fact_efikasnost_nastave_Dim_Vreme] FOREIGN KEY([vreme_SID])&#xA;REFERENCES [dbo].[Dim_Vreme] ([vreme_SID])&#xA;&#xA;&#xA;ALTER TABLE [dbo].[Fact_efikasnost_nastave] CHECK CONSTRAINT [FK_Fact_efikasnost_nastave_Dim_Vreme]&#xA;&#xA;end&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\ETL Fact_Uspesnost"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{65AB73D5-BB04-4188-8320-8F10CCE459D5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ETL Fact_Uspesnost"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Derived Column"
+              componentClassID="Microsoft.DerivedColumn"
+              contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+              name="Derived Column"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Derived Column.Inputs[Derived Column Input]"
+                  description="Input to the Derived Column Transformation"
+                  name="Derived Column Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Derived Column.Inputs[Derived Column Input].Columns[id_student]"
+                      cachedDataType="i2"
+                      cachedName="id_student"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_student]" />
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Derived Column.Inputs[Derived Column Input].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_predmet]" />
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output]"
+                  description="Default Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  name="Derived Column Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_student_int]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_student_int]"
+                      name="id_student_int"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_I4)#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_student]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_I4)id_student</property>
+                      </properties>
+                    </outputColumn>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_predmet_int]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      lineageId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_predmet_int]"
+                      name="id_predmet_int"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Expression"
+                          name="Expression">(DT_I4)#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_predmet]}</property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Derived Column Friendly Expression"
+                          expressionType="Notify"
+                          name="FriendlyExpression">(DT_I4)id_predmet</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Error Output]"
+                  description="Error Output of the Derived Column Transformation"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Derived Column Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Derived Column.Inputs[Derived Column Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup predmet_SID"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Dim_Predmet]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Dim_Predmet]) [refTable]
+where [refTable].[id_predmet] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="predmet_SID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="id_predmet" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ima_lab" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="predmet_naziv" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_predmet_int]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Connections[OleDbConnection]"
+                  connectionManagerID="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.DW-Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Inputs[Lookup Input].Columns[id_predmet_int]"
+                      cachedDataType="i4"
+                      cachedName="id_predmet_int"
+                      lineageId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_predmet_int]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">id_predmet</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Match Output].Columns[predmet_SID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Match Output].Columns[predmet_SID]"
+                      name="predmet_SID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">predmet_SID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup prijava_SID"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Dim_Prijava]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Dim_Prijava]) [refTable]
+where [refTable].[fk_predmet] = ? and [refTable].[fk_student] = ? and [refTable].[fk_rok] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="prijava_SID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="ocena" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="fk_rok" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="fk_predmet" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="fk_student" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="f_polozen" dataType="DT_BOOL" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Match Output].Columns[predmet_SID]};#{Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Match Output].Columns[student_SID]};#{Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Match Output].Columns[vreme_SID]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Connections[OleDbConnection]"
+                  connectionManagerID="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.DW-Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input].Columns[predmet_SID]"
+                      cachedDataType="i4"
+                      cachedName="predmet_SID"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Match Output].Columns[predmet_SID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">fk_predmet</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input].Columns[student_SID]"
+                      cachedDataType="i4"
+                      cachedName="student_SID"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Match Output].Columns[student_SID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">fk_student</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input].Columns[vreme_SID]"
+                      cachedDataType="i4"
+                      cachedName="vreme_SID"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Match Output].Columns[vreme_SID]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">fk_rok</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Match Output].Columns[prijava_SID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Match Output].Columns[prijava_SID]"
+                      name="prijava_SID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">prijava_SID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup prolaznost_po_predmetu"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT
+    id_predmet,
+    CAST(SUM(CASE WHEN f_polozen = 1 THEN 1 ELSE 0 END) AS decimal(10,4))
+        / NULLIF(COUNT(*), 0) AS prolaznost_po_predmetu
+FROM rezultat_ispita
+GROUP BY id_predmet</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT
+    id_predmet,
+    CAST(SUM(CASE WHEN f_polozen = 1 THEN 1 ELSE 0 END) AS decimal(10,4))
+        / NULLIF(COUNT(*), 0) AS prolaznost_po_predmetu
+FROM rezultat_ispita
+GROUP BY id_predmet) [refTable]
+where [refTable].[id_predmet] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="id_predmet" dataType="DT_I2" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="prolaznost_po_predmetu" dataType="DT_NUMERIC" length="0" precision="21" scale="15" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Connections[OleDbConnection]"
+                  connectionManagerID="{9FA28063-1833-47D8-91C1-9BC255BEFAFB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Inputs[Lookup Input].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">id_predmet</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Match Output].Columns[prolaznost_po_predmetu]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Match Output].Columns[prolaznost_po_predmetu]"
+                      name="prolaznost_po_predmetu"
+                      precision="21"
+                      scale="15"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">prolaznost_po_predmetu</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup prosecna_ocena_bez_lab"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">;WITH ProsekBezLab AS (
+    SELECT
+        CAST(
+            SUM(CAST(r.ocena AS float)) / NULLIF(COUNT(*), 0)
+            AS decimal(10,2)
+        ) AS prosecna_ocena_bez_lab
+    FROM dbo.rezultat_ispita AS r
+    WHERE r.f_polozen = 1
+      AND ISNUMERIC(r.ocena) = 1
+      AND CAST(r.ocena AS int) BETWEEN 6 AND 10
+      AND NOT EXISTS (
+            SELECT 1
+            FROM dbo.angazovanje a
+            WHERE a.id_predmet = r.id_predmet
+              AND a.id_tip_nastave = 3
+      )
+)
+SELECT DISTINCT
+    r.id_predmet,
+    p.prosecna_ocena_bez_lab
+FROM dbo.rezultat_ispita r
+CROSS JOIN ProsekBezLab p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM dbo.angazovanje a
+    WHERE a.id_predmet = r.id_predmet
+      AND a.id_tip_nastave = 3
+)
+ORDER BY r.id_predmet;</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (;WITH ProsekBezLab AS (
+    SELECT
+        CAST(
+            SUM(CAST(r.ocena AS float)) / NULLIF(COUNT(*), 0)
+            AS decimal(10,2)
+        ) AS prosecna_ocena_bez_lab
+    FROM dbo.rezultat_ispita AS r
+    WHERE r.f_polozen = 1
+      AND ISNUMERIC(r.ocena) = 1
+      AND CAST(r.ocena AS int) BETWEEN 6 AND 10
+      AND NOT EXISTS (
+            SELECT 1
+            FROM dbo.angazovanje a
+            WHERE a.id_predmet = r.id_predmet
+              AND a.id_tip_nastave = 3
+      )
+)
+SELECT DISTINCT
+    r.id_predmet,
+    p.prosecna_ocena_bez_lab
+FROM dbo.rezultat_ispita r
+CROSS JOIN ProsekBezLab p
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM dbo.angazovanje a
+    WHERE a.id_predmet = r.id_predmet
+      AND a.id_tip_nastave = 3
+)
+ORDER BY r.id_predmet;) [refTable]
+where [refTable].[id_predmet] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="id_predmet" dataType="DT_I2" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="prosecna_ocena_bez_lab" dataType="DT_NUMERIC" length="0" precision="10" scale="2" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Connections[OleDbConnection]"
+                  connectionManagerID="{9FA28063-1833-47D8-91C1-9BC255BEFAFB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Inputs[Lookup Input].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">id_predmet</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Match Output].Columns[prosecna_ocena_bez_lab]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Match Output].Columns[prosecna_ocena_bez_lab]"
+                      name="prosecna_ocena_bez_lab"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">prosecna_ocena_bez_lab</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup prosecna_ocena_po_predmetu"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT
+    id_predmet,
+    CAST(
+        SUM(CAST(ocena AS float)) /
+        NULLIF(COUNT(*), 0)
+        AS decimal(10,2)
+    ) AS prosecna_ocena_po_predmetu
+FROM rezultat_ispita
+WHERE f_polozen = 1
+  AND ISNUMERIC(ocena) = 1
+  AND CAST(ocena AS int) BETWEEN 6 AND 10
+GROUP BY id_predmet</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (SELECT
+    id_predmet,
+    CAST(
+        SUM(CAST(ocena AS float)) /
+        NULLIF(COUNT(*), 0)
+        AS decimal(10,2)
+    ) AS prosecna_ocena_po_predmetu
+FROM rezultat_ispita
+WHERE f_polozen = 1
+  AND ISNUMERIC(ocena) = 1
+  AND CAST(ocena AS int) BETWEEN 6 AND 10
+GROUP BY id_predmet) [refTable]
+where [refTable].[id_predmet] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="id_predmet" dataType="DT_I2" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="prosecna_ocena_po_predmetu" dataType="DT_NUMERIC" length="0" precision="10" scale="2" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Connections[OleDbConnection]"
+                  connectionManagerID="{9FA28063-1833-47D8-91C1-9BC255BEFAFB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Inputs[Lookup Input].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">id_predmet</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Match Output].Columns[prosecna_ocena_po_predmetu]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Match Output].Columns[prosecna_ocena_po_predmetu]"
+                      name="prosecna_ocena_po_predmetu"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">prosecna_ocena_po_predmetu</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup prosecna_ocena_sa_lab"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">-- prvo izračunamo ukupni prosek za predmete koji imaju lab
+;WITH ProsekLab AS (
+    SELECT
+        CAST(
+            SUM(CAST(r.ocena AS float)) / NULLIF(COUNT(*), 0)
+            AS decimal(10,2)
+        ) AS prosecna_ocena_sa_lab
+    FROM dbo.rezultat_ispita AS r
+    WHERE r.f_polozen = 1
+      AND ISNUMERIC(r.ocena) = 1
+      AND CAST(r.ocena AS int) BETWEEN 6 AND 10
+      AND EXISTS (
+            SELECT 1
+            FROM dbo.angazovanje a
+            WHERE a.id_predmet = r.id_predmet
+              AND a.id_tip_nastave = 3
+      )
+)
+-- sad prikažemo taj isti prosek uz svaki predmet koji ima lab
+SELECT 
+    DISTINCT r.id_predmet,
+    p.prosecna_ocena_sa_lab
+FROM dbo.rezultat_ispita r
+CROSS JOIN ProsekLab p
+WHERE EXISTS (
+    SELECT 1
+    FROM dbo.angazovanje a
+    WHERE a.id_predmet = r.id_predmet
+      AND a.id_tip_nastave = 3
+)
+ORDER BY r.id_predmet;</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (-- prvo izračunamo ukupni prosek za predmete koji imaju lab
+;WITH ProsekLab AS (
+    SELECT
+        CAST(
+            SUM(CAST(r.ocena AS float)) / NULLIF(COUNT(*), 0)
+            AS decimal(10,2)
+        ) AS prosecna_ocena_sa_lab
+    FROM dbo.rezultat_ispita AS r
+    WHERE r.f_polozen = 1
+      AND ISNUMERIC(r.ocena) = 1
+      AND CAST(r.ocena AS int) BETWEEN 6 AND 10
+      AND EXISTS (
+            SELECT 1
+            FROM dbo.angazovanje a
+            WHERE a.id_predmet = r.id_predmet
+              AND a.id_tip_nastave = 3
+      )
+)
+-- sad prikažemo taj isti prosek uz svaki predmet koji ima lab
+SELECT 
+    DISTINCT r.id_predmet,
+    p.prosecna_ocena_sa_lab
+FROM dbo.rezultat_ispita r
+CROSS JOIN ProsekLab p
+WHERE EXISTS (
+    SELECT 1
+    FROM dbo.angazovanje a
+    WHERE a.id_predmet = r.id_predmet
+      AND a.id_tip_nastave = 3
+)
+ORDER BY r.id_predmet;) [refTable]
+where [refTable].[id_predmet] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="id_predmet" dataType="DT_I2" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="prosecna_ocena_sa_lab" dataType="DT_NUMERIC" length="0" precision="10" scale="2" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Connections[OleDbConnection]"
+                  connectionManagerID="{9FA28063-1833-47D8-91C1-9BC255BEFAFB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Inputs[Lookup Input].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">id_predmet</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Match Output].Columns[prosecna_ocena_sa_lab]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Match Output].Columns[prosecna_ocena_sa_lab]"
+                      name="prosecna_ocena_sa_lab"
+                      precision="10"
+                      scale="2"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">prosecna_ocena_sa_lab</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup student_SID"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup student_SID"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Dim_Student]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Dim_Student]) [refTable]
+where [refTable].[id_student] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="student_SID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="id_student" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="drzava_rodjenja" dataType="DT_WSTR" length="100" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="naziv_srednje_skole" dataType="DT_WSTR" length="200" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_student_int]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Connections[OleDbConnection]"
+                  connectionManagerID="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.DW-Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Inputs[Lookup Input].Columns[id_student_int]"
+                      cachedDataType="i4"
+                      cachedName="id_student_int"
+                      lineageId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output].Columns[id_student_int]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">id_student</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup student_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Match Output].Columns[student_SID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Match Output].Columns[student_SID]"
+                      name="student_SID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">student_SID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup student_SID.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup student_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID"
+              componentClassID="Microsoft.Lookup"
+              contactInfo="Lookup;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;6"
+              description="Joins additional columns to the data flow by looking up values in a table. For example, join to the 'employee id' column the employees table to get 'hire date' and 'employee name'. We recommend this transformation when the lookup table can fit into memory."
+              name="Lookup vreme_SID"
+              usesDispositions="true"
+              version="6">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement that generates the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from [dbo].[Dim_Vreme]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies a SQL statement that uses parameters to generate the lookup table."
+                  expressionType="Notify"
+                  name="SqlCommandParam"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select * from (select * from [dbo].[Dim_Vreme]) [refTable]
+where [refTable].[id_rok] = ?</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the type of connection used to access the reference dataset."
+                  name="ConnectionType"
+                  typeConverter="LookupConnectionType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the cache type of the lookup table."
+                  name="CacheType"
+                  typeConverter="CacheType">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies how the Lookup transformation handles rows without matching entries in the reference data set."
+                  name="NoMatchBehavior"
+                  typeConverter="LookupNoMatchBehavior">1</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the percentage of the cache that is allocated for rows with no matching entries in the reference dataset."
+                  name="NoMatchCachePercentage">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="Maximum Memory Usage for Reference Cache on a 32 bit platform."
+                  name="MaxMemoryUsage">25</property>
+                <property
+                  dataType="System.Int64"
+                  description="Maximum Memory Usage for Reference Cache on a 64 bit platform."
+                  name="MaxMemoryUsage64">25</property>
+                <property
+                  dataType="System.String"
+                  description="Indicates whether to reference metadata in an XML format."
+                  name="ReferenceMetadataXml">&lt;referenceMetadata&gt;&lt;referenceColumns&gt;&lt;referenceColumn name="vreme_SID" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="id_rok" dataType="DT_I4" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="naziv_roka" dataType="DT_WSTR" length="50" precision="0" scale="0" codePage="0"/&gt;&lt;referenceColumn name="skolska_godina" dataType="DT_I2" length="0" precision="0" scale="0" codePage="0"/&gt;&lt;/referenceColumns&gt;&lt;/referenceMetadata&gt;</property>
+                <property
+                  containsID="true"
+                  dataType="System.String"
+                  description="Specifies the list of lineage identifiers that map to the parameters that the SQL statement in the SQLCommand property uses. Entries in the list are separated by semicolons."
+                  name="ParameterMap">#{Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_rok]};</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Determines whether duplicate keys in the reference data should be treated as errors when full cache mode is used."
+                  name="TreatDuplicateKeysAsError">false</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Connections[OleDbConnection]"
+                  connectionManagerID="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.DW-Studenti]"
+                  description="Connection manager used to access lookup data."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Inputs[Lookup Input]"
+                  name="Lookup Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Inputs[Lookup Input].Columns[id_rok]"
+                      cachedDataType="i4"
+                      cachedName="id_rok"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_rok]">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table that a column joins."
+                          name="JoinToReferenceColumn">id_rok</property>
+                        <property
+                          dataType="System.Null"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn" />
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Match Output]"
+                  errorOrTruncationOperation="Lookup"
+                  exclusionGroup="1"
+                  name="Lookup Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Match Output].Columns[vreme_SID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Copy Column"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Match Output].Columns[vreme_SID]"
+                      name="vreme_SID"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the column in the reference table from which a column is copied."
+                          name="CopyFromReferenceColumn">vreme_SID</property>
+                      </properties>
+                    </outputColumn>
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup No Match Output]"
+                  description="The Lookup output that handles rows with no matching entries in the reference dataset. Use this output when the NoMatchBehavior property is set to &quot;Send rows with no matching entries to the no match output.&quot;"
+                  exclusionGroup="1"
+                  name="Lookup No Match Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Inputs[Lookup Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Lookup Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Inputs[Lookup Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Fact_efikasnost_nastave]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.DW-Studenti]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[predmet_SID]"
+                      cachedDataType="i4"
+                      cachedName="predmet_SID"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[predmet_SID]"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Match Output].Columns[predmet_SID]" />
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[vreme_SID]"
+                      cachedDataType="i4"
+                      cachedName="vreme_SID"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[vreme_SID]"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Match Output].Columns[vreme_SID]" />
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[prijava_SID]"
+                      cachedDataType="i4"
+                      cachedName="prijava_SID"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prijava_SID]"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Match Output].Columns[prijava_SID]" />
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[prolaznost_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prolaznost_po_predmetu"
+                      cachedPrecision="21"
+                      cachedScale="15"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prolaznost_po_predmetu]"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]" />
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[prosecna_ocena_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_po_predmetu"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prosecna_ocena_po_predmetu]"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]" />
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[prosecna_ocena_sa_lab]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_sa_lab"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prosecna_ocena_sa_lab]"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]" />
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[prosecna_ocena_bez_lab]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_bez_lab"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prosecna_ocena_bez_lab]"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_bez_lab]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[vreme_SID]"
+                      dataType="i4"
+                      name="vreme_SID" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prijava_SID]"
+                      dataType="i4"
+                      name="prijava_SID" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[predmet_SID]"
+                      dataType="i4"
+                      name="predmet_SID" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[efikasnost_nastave_SID]"
+                      dataType="i4"
+                      name="efikasnost_nastave_SID" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prolaznost_po_predmetu]"
+                      dataType="r8"
+                      name="prolaznost_po_predmetu" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prosecna_ocena_po_predmetu]"
+                      dataType="r8"
+                      name="prosecna_ocena_po_predmetu" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prosecna_ocena_sa_lab]"
+                      dataType="r8"
+                      name="prosecna_ocena_sa_lab" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[prosecna_ocena_bez_lab]"
+                      dataType="r8"
+                      name="prosecna_ocena_bez_lab" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Read table rezultat_ispita"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">select ocena, id_student, id_predmet, id_rok, f_polozen from rezultat_ispita</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Connections[OleDbConnection]"
+                  connectionManagerID="{9FA28063-1833-47D8-91C1-9BC255BEFAFB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.Studenti]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[ocena]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[ocena]"
+                      length="50"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[ocena]"
+                      name="ocena"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_student]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[id_student]"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_student]"
+                      name="id_student"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[id_predmet]"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]"
+                      name="id_predmet"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_rok]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[id_rok]"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_rok]"
+                      name="id_rok"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[f_polozen]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[f_polozen]"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[f_polozen]"
+                      name="f_polozen"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[ocena]"
+                      dataType="wstr"
+                      length="50"
+                      name="ocena" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[id_student]"
+                      dataType="i2"
+                      name="id_student" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[id_predmet]"
+                      dataType="i2"
+                      name="id_predmet" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[id_rok]"
+                      dataType="i4"
+                      name="id_rok" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].ExternalColumns[f_polozen]"
+                      dataType="bool"
+                      name="f_polozen" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[ocena]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[ocena]"
+                      name="ocena" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[id_student]"
+                      dataType="i2"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[id_student]"
+                      name="id_student" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[id_predmet]"
+                      dataType="i2"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[id_predmet]"
+                      name="id_predmet" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[id_rok]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[id_rok]"
+                      name="id_rok" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[f_polozen]"
+                      dataType="bool"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[f_polozen]"
+                      name="f_polozen" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Union All"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[ocena]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ocena"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[ocena]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[ocena]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[id_student]"
+                      cachedDataType="i2"
+                      cachedName="id_student"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_student]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_student]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_predmet]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[id_rok]"
+                      cachedDataType="i4"
+                      cachedName="id_rok"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_rok]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_rok]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[f_polozen]"
+                      cachedDataType="bool"
+                      cachedName="f_polozen"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[f_polozen]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[f_polozen]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[prolaznost_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prolaznost_po_predmetu"
+                      cachedPrecision="21"
+                      cachedScale="15"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Match Output].Columns[prolaznost_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[prosecna_ocena_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_po_predmetu"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Match Output].Columns[prosecna_ocena_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1].Columns[prosecna_ocena_sa_lab]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_sa_lab"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Match Output].Columns[prosecna_ocena_sa_lab]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2].Columns[ocena]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ocena"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[ocena]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[ocena]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2].Columns[id_student]"
+                      cachedDataType="i2"
+                      cachedName="id_student"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_student]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_student]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_predmet]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2].Columns[id_rok]"
+                      cachedDataType="i4"
+                      cachedName="id_rok"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[id_rok]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_rok]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2].Columns[f_polozen]"
+                      cachedDataType="bool"
+                      cachedName="f_polozen"
+                      lineageId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output].Columns[f_polozen]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[f_polozen]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2].Columns[prolaznost_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prolaznost_po_predmetu"
+                      cachedPrecision="21"
+                      cachedScale="15"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Match Output].Columns[prolaznost_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2].Columns[prosecna_ocena_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_po_predmetu"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Match Output].Columns[prosecna_ocena_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[ocena]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[ocena]"
+                      name="ocena" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_student]"
+                      dataType="i2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_student]"
+                      name="id_student" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_predmet]"
+                      dataType="i2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_predmet]"
+                      name="id_predmet" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_rok]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_rok]"
+                      name="id_rok" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[f_polozen]"
+                      dataType="bool"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[f_polozen]"
+                      name="f_polozen" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]"
+                      dataType="numeric"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]"
+                      name="prolaznost_po_predmetu"
+                      precision="21"
+                      scale="15" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]"
+                      dataType="numeric"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]"
+                      name="prosecna_ocena_po_predmetu"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]"
+                      dataType="numeric"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]"
+                      name="prosecna_ocena_sa_lab"
+                      precision="10"
+                      scale="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Fact_Uspesnost\Union All 1"
+              componentClassID="Microsoft.UnionAll"
+              contactInfo="Union All;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+              description="Combines rows from multiple data flows without sorting. For example, add rows back to a data flow after correction of errors. If sorting is important, we recommend using the Merge transformation."
+              name="Union All 1"
+              version="1">
+              <inputs>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1]"
+                  name="Union All Input 1">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[ocena]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ocena"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[ocena]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[ocena]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[id_student]"
+                      cachedDataType="i2"
+                      cachedName="id_student"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_student]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_student]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_predmet]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[id_rok]"
+                      cachedDataType="i4"
+                      cachedName="id_rok"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_rok]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_rok]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[f_polozen]"
+                      cachedDataType="bool"
+                      cachedName="f_polozen"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[f_polozen]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[f_polozen]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[prolaznost_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prolaznost_po_predmetu"
+                      cachedPrecision="21"
+                      cachedScale="15"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[prosecna_ocena_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_po_predmetu"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[prosecna_ocena_sa_lab]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_sa_lab"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1].Columns[prosecna_ocena_bez_lab]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_bez_lab"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Match Output].Columns[prosecna_ocena_bez_lab]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_bez_lab]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2]"
+                  hasSideEffects="true"
+                  name="Union All Input 2">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[ocena]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="ocena"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[ocena]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[ocena]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[id_student]"
+                      cachedDataType="i2"
+                      cachedName="id_student"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_student]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_student]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[id_predmet]"
+                      cachedDataType="i2"
+                      cachedName="id_predmet"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_predmet]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_predmet]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[id_rok]"
+                      cachedDataType="i4"
+                      cachedName="id_rok"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[id_rok]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_rok]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[f_polozen]"
+                      cachedDataType="bool"
+                      cachedName="f_polozen"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[f_polozen]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[f_polozen]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[prolaznost_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prolaznost_po_predmetu"
+                      cachedPrecision="21"
+                      cachedScale="15"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[prosecna_ocena_po_predmetu]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_po_predmetu"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]}</property>
+                      </properties>
+                    </inputColumn>
+                    <inputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2].Columns[prosecna_ocena_sa_lab]"
+                      cachedDataType="numeric"
+                      cachedName="prosecna_ocena_sa_lab"
+                      cachedPrecision="10"
+                      cachedScale="2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.Int32"
+                          description="Output column lineage ID"
+                          name="OutputColumnLineageID">#{Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]}</property>
+                      </properties>
+                    </inputColumn>
+                  </inputColumns>
+                  <externalMetadataColumns />
+                </input>
+                <input
+                  refId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 3]"
+                  dangling="true"
+                  hasSideEffects="true"
+                  name="Union All Input 3">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1]"
+                  name="Union All Output 1">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[ocena]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[ocena]"
+                      name="ocena" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_student]"
+                      dataType="i2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_student]"
+                      name="id_student" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_predmet]"
+                      dataType="i2"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_predmet]"
+                      name="id_predmet" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_rok]"
+                      dataType="i4"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[id_rok]"
+                      name="id_rok" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[f_polozen]"
+                      dataType="bool"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[f_polozen]"
+                      name="f_polozen" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]"
+                      dataType="numeric"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prolaznost_po_predmetu]"
+                      name="prolaznost_po_predmetu"
+                      precision="21"
+                      scale="15" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]"
+                      dataType="numeric"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_po_predmetu]"
+                      name="prosecna_ocena_po_predmetu"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]"
+                      dataType="numeric"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_sa_lab]"
+                      name="prosecna_ocena_sa_lab"
+                      precision="10"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_bez_lab]"
+                      dataType="numeric"
+                      lineageId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1].Columns[prosecna_ocena_bez_lab]"
+                      name="prosecna_ocena_bez_lab"
+                      precision="10"
+                      scale="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Derived Column Output]"
+              endId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Inputs[Lookup Input]"
+              name="Derived Column Output"
+              startId="Package\ETL Fact_Uspesnost\Derived Column.Outputs[Derived Column Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output]"
+              endId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output1]"
+              endId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output2]"
+              endId="Package\ETL Fact_Uspesnost\Lookup student_SID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup predmet_SID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output3]"
+              endId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup student_SID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output4]"
+              endId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Inputs[Lookup Input]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup vreme_SID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output5]"
+              endId="Package\ETL Fact_Uspesnost\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup prijava_SID.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output6]"
+              endId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 1]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output7]"
+              endId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 1]"
+              name="Lookup Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup No Match Output]"
+              endId="Package\ETL Fact_Uspesnost\Union All.Inputs[Union All Input 2]"
+              name="Lookup No Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Lookup No Match Output1]"
+              endId="Package\ETL Fact_Uspesnost\Union All 1.Inputs[Union All Input 2]"
+              name="Lookup No Match Output"
+              startId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Outputs[Lookup No Match Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[OLE DB Source Output]"
+              endId="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu.Inputs[Lookup Input]"
+              name="OLE DB Source Output"
+              startId="Package\ETL Fact_Uspesnost\Read table rezultat_ispita.Outputs[OLE DB Source Output]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Union All Output 1]"
+              endId="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab.Inputs[Lookup Input]"
+              name="Union All Output 1"
+              startId="Package\ETL Fact_Uspesnost\Union All.Outputs[Union All Output 1]" />
+            <path
+              refId="Package\ETL Fact_Uspesnost.Paths[Union All Output 11]"
+              endId="Package\ETL Fact_Uspesnost\Derived Column.Inputs[Derived Column Input]"
+              name="Union All Output 1"
+              startId="Package\ETL Fact_Uspesnost\Union All 1.Outputs[Union All Output 1]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{1E9634F2-538A-4F77-B896-8AA8DC8F5936}"
+      DTS:From="Package\DROP and CREATE Fact_Uspesnost"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\ETL Fact_Uspesnost" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="251.2,41.6"
+          Id="Package\DROP and CREATE Fact_Uspesnost"
+          TopLeft="176.666657014026,43.3333330319987" />
+        <NodeLayout
+          Size="175.2,41.6"
+          Id="Package\ETL Fact_Uspesnost"
+          TopLeft="222.499987843136,157.733332236475" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="306.183322428581,84.9333330319987">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72.7999992044763"
+              Start="0,0"
+              End="0,65.2999992044763">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65.2999992044763" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\ETL Fact_Uspesnost">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="172.8,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup student_SID"
+          TopLeft="240.833320174781,976.06666420175" />
+        <NodeLayout
+          Size="228.8,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab"
+          TopLeft="210.833321813908,456.19999745071" />
+        <NodeLayout
+          Size="167.2,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup vreme_SID"
+          TopLeft="242.499986750385,1090.26666414751" />
+        <NodeLayout
+          Size="259.2,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu"
+          TopLeft="204.999988799295,323.199998119672" />
+        <NodeLayout
+          Size="196,41.6"
+          Id="Package\ETL Fact_Uspesnost\Read table rezultat_ispita"
+          TopLeft="229.999987433355,73.6666661543979" />
+        <NodeLayout
+          Size="234.4,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab"
+          TopLeft="221.666654555335,599.599997504949" />
+        <NodeLayout
+          Size="176.8,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup predmet_SID"
+          TopLeft="237.499987023573,870.199997052947" />
+        <NodeLayout
+          Size="171.2,41.6"
+          Id="Package\ETL Fact_Uspesnost\OLE DB Destination"
+          TopLeft="255.833319355217,1350.73333149519" />
+        <NodeLayout
+          Size="230.4,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu"
+          TopLeft="200.833322360285,188.933332091835" />
+        <NodeLayout
+          Size="152.8,41.6"
+          Id="Package\ETL Fact_Uspesnost\Derived Column"
+          TopLeft="251.666652916207,782.133331694073" />
+        <NodeLayout
+          Size="168.8,41.6"
+          Id="Package\ETL Fact_Uspesnost\Lookup prijava_SID"
+          TopLeft="249.166653052801,1209.86666411135" />
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[OLE DB Source Output]"
+          TopLeft="327.999987433355,115.266666154398">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-11.96666507307,73.6666659374371"
+              Start="0,0"
+              End="-11.96666507307,66.1666659374371">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,32.8333329687186" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,32.8333329687186"
+                    Point2="0,36.8333329687186"
+                    Point3="-4,36.8333329687186" />
+                  <mssgle:LineSegment
+                    End="-7.96666507307003,36.8333329687186" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-7.96666507307003,36.8333329687186"
+                    Point2="-11.96666507307,36.8333329687186"
+                    Point3="-11.96666507307,40.8333329687186" />
+                  <mssgle:LineSegment
+                    End="-11.96666507307,66.1666659374371" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output5]"
+          TopLeft="337.499986204009,1251.46666411135">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,99.266667383843"
+              Start="0,0"
+              End="0,91.766667383843">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,91.766667383843" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,40.0786461919215,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output4]"
+          TopLeft="329.833319901593,1131.86666414751">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,77.9999999638399"
+              Start="0,0"
+              End="0,70.4999999638399">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,70.4999999638399" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,29.4453124819199,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output3]"
+          TopLeft="326.666653462583,1017.66666420175">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,72.59999994576"
+              Start="0,0"
+              End="0,65.09999994576">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,65.09999994576" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,26.74531247288,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output2]"
+          TopLeft="326.566653599177,911.799997052947">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,64.2666671488021"
+              Start="0,0"
+              End="0,56.7666671488021">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,56.7666671488021" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,22.578646074401,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output1]"
+          TopLeft="334.599988799295,364.799998119672">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-9.36666698538704,91.399999331038"
+              Start="0,0"
+              End="-9.36666698538704,83.899999331038">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.699999665519" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,41.699999665519"
+                    Point2="0,45.699999665519"
+                    Point3="-4,45.699999665519" />
+                  <mssgle:LineSegment
+                    End="-5.36666698538704,45.699999665519" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-5.36666698538704,45.699999665519"
+                    Point2="-9.36666698538704,45.699999665519"
+                    Point3="-9.36666698538704,49.699999665519" />
+                  <mssgle:LineSegment
+                    End="-9.36666698538704,83.899999331038" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-52.8747202114435,50.699999665519,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output]"
+          TopLeft="316.033322360285,230.533332091835">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="18.5666664390101,92.666666027837"
+              Start="0,0"
+              End="18.5666664390101,85.166666027837">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,42.3333330139185" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,42.3333330139185"
+                    Point2="0,46.3333330139185"
+                    Point3="4,46.3333330139185" />
+                  <mssgle:LineSegment
+                    End="14.5666664390101,46.3333330139185" />
+                  <mssgle:CubicBezierSegment
+                    Point1="14.5666664390101,46.3333330139185"
+                    Point2="18.5666664390101,46.3333330139185"
+                    Point3="18.5666664390101,50.3333330139185" />
+                  <mssgle:LineSegment
+                    End="18.5666664390101,85.166666027837" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-38.908053499245,51.3333330139185,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Derived Column Output]"
+          TopLeft="326.98331996989,823.733331694073">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46.4666653588743"
+              Start="0,0"
+              End="0,38.9666653588743">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.9666653588743" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="120,41.6"
+          Id="Package\ETL Fact_Uspesnost\Union All"
+          TopLeft="272.499985111257,529.466666461759" />
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output6]"
+          TopLeft="328.866653462582,497.79999745071">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.6666690110492"
+              Start="0,0"
+              End="0,24.1666690110492">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.1666690110492" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,6.27864700552462,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup No Match Output]"
+          TopLeft="328.866653462582,497.79999745071">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,31.6666690110492"
+              Start="0,0"
+              End="0,24.1666690110492">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.1666690110492" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,6.27864700552462,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Union All Output 1]"
+          TopLeft="335.683319833296,571.066666461759">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28.5333310431897"
+              Start="0,0"
+              End="0,21.0333310431897">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.0333310431897" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="128.8,41.6"
+          Id="Package\ETL Fact_Uspesnost\Union All 1"
+          TopLeft="266.666652096643,685.333331694073" />
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup Match Output7]"
+          TopLeft="334.966653325989,641.199997504949">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1333341891242"
+              Start="0,0"
+              End="0,36.6333341891242">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6333341891242" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-48.19138671875,12.5119795945621,96.3827734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Lookup No Match Output1]"
+          TopLeft="334.966653325989,641.199997504949">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,44.1333341891242"
+              Start="0,0"
+              End="0,36.6333341891242">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,36.6333341891242" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-55.80638671875,12.5119795945621,111.6127734375,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\ETL Fact_Uspesnost.Paths[Union All Output 11]"
+          TopLeft="329.566652506425,726.933331694073">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,55.1999999999995"
+              Start="0,0"
+              End="0,47.6999999999995">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,47.6999999999995" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_bez_lab">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup predmet_SID">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Predmet]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Read table rezultat_ispita">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_po_predmetu">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup prolaznost_po_predmetu">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup student_SID">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Student]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup prijava_SID">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Prijava]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup prosecna_ocena_sa_lab">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string"></Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Fact_Uspesnost\Lookup vreme_SID">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:boolean">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[Dim_Vreme]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:int">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

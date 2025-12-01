@@ -1,0 +1,486 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/9/2025 5:12:08 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-G59BG80"
+  DTS:CreatorName="DESKTOP-G59BG80\bendz"
+  DTS:DTSID="{3FA1A438-AFF8-43E9-B791-D3E26D918729}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="16.0.5685.2"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Dim_Student2"
+  DTS:PackageType="5"
+  DTS:VersionBuild="21"
+  DTS:VersionGUID="{4D7A7B87-2455-4B81-A0C7-B0ECE5A3C90D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\ETL Dim_Student"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{8F99F823-C740-4CEA-8C0E-9E169137309E}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ETL Dim_Student">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\ETL Dim_Student\Citanje tabele student"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Citanje tabele student"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT s.id_student, d.naziv as drzava_rodjenja, sr.naziv as naziv_srednje_skole
+FROM student s LEFT JOIN sif_srednja_skola sr ON (s.id_srednja_skola=sr.id_srednja_skola) LEFT JOIN sif_drzava d ON (s.id_drzava_rodjenja=d.id_drzava);</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Dim_Student\Citanje tabele student.Connections[OleDbConnection]"
+                  connectionManagerID="{9FA28063-1833-47D8-91C1-9BC255BEFAFB}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.Studenti]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[id_student]"
+                      dataType="i2"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].ExternalColumns[id_student]"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[id_student]"
+                      name="id_student"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[drzava_rodjenja]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].ExternalColumns[drzava_rodjenja]"
+                      length="100"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[drzava_rodjenja]"
+                      name="drzava_rodjenja"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[naziv_srednje_skole]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].ExternalColumns[naziv_srednje_skole]"
+                      length="200"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[naziv_srednje_skole]"
+                      name="naziv_srednje_skole"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].ExternalColumns[id_student]"
+                      dataType="i2"
+                      name="id_student" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].ExternalColumns[drzava_rodjenja]"
+                      dataType="wstr"
+                      length="100"
+                      name="drzava_rodjenja" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].ExternalColumns[naziv_srednje_skole]"
+                      dataType="wstr"
+                      length="200"
+                      name="naziv_srednje_skole" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[id_student]"
+                      dataType="i2"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[id_student]"
+                      name="id_student" />
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[drzava_rodjenja]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[drzava_rodjenja]"
+                      name="drzava_rodjenja" />
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[naziv_srednje_skole]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Error Output].Columns[naziv_srednje_skole]"
+                      name="naziv_srednje_skole" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ETL Dim_Student\Upisi u DW"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Upisi u DW"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[Dim_Student]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ETL Dim_Student\Upisi u DW.Connections[OleDbConnection]"
+                  connectionManagerID="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[DESKTOP-G59BG80_SQLEXPRESS.DW-Studenti]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].Columns[id_student]"
+                      cachedDataType="i2"
+                      cachedName="id_student"
+                      externalMetadataColumnId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].ExternalColumns[id_student]"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[id_student]" />
+                    <inputColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].Columns[drzava_rodjenja]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="drzava_rodjenja"
+                      externalMetadataColumnId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].ExternalColumns[drzava_rodjenja]"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[drzava_rodjenja]" />
+                    <inputColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].Columns[naziv_srednje_skole]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="naziv_srednje_skole"
+                      externalMetadataColumnId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].ExternalColumns[naziv_srednje_skole]"
+                      lineageId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output].Columns[naziv_srednje_skole]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].ExternalColumns[student_SID]"
+                      dataType="i4"
+                      name="student_SID" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].ExternalColumns[id_student]"
+                      dataType="i4"
+                      name="id_student" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].ExternalColumns[drzava_rodjenja]"
+                      dataType="wstr"
+                      length="100"
+                      name="drzava_rodjenja" />
+                    <externalMetadataColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input].ExternalColumns[naziv_srednje_skole]"
+                      dataType="wstr"
+                      length="200"
+                      name="naziv_srednje_skole" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ETL Dim_Student\Upisi u DW.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ETL Dim_Student\Upisi u DW.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ETL Dim_Student\Upisi u DW.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ETL Dim_Student\Upisi u DW.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\ETL Dim_Student.Paths[OLE DB Source Output]"
+              endId="Package\ETL Dim_Student\Upisi u DW.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\ETL Dim_Student\Citanje tabele student.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Execute SQL Task"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8427BF50-5254-4C2E-B7D9-D77F74D6B3BC}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Execute SQL Task"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2022; © 2022 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{3C9D213E-7D71-438B-81A5-2FB51A1CF082}"
+          SQLTask:SqlStatementSource="&#xA;IF EXISTS (&#xA;    SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS&#xA;    WHERE CONSTRAINT_NAME = 'FK_Fact_Uspesnost_Dim_Student'&#xA;)&#xA;BEGIN&#xA;    ALTER TABLE [dbo].[Fact_Uspesnost]&#xA;        DROP CONSTRAINT [FK_Fact_Uspesnost_Dim_Student];&#xA;END&#xA;&#xA;&#xA;IF EXISTS (&#xA;    SELECT * FROM INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS&#xA;    WHERE CONSTRAINT_NAME = 'FK_Dim_Prijava_Dim_Student'&#xA;)&#xA;BEGIN&#xA;    -- Ovaj FK je na Dim_Prijava (ne na Fact_Uspesnost)&#xA;    ALTER TABLE [dbo].[Dim_Prijava]&#xA;        DROP CONSTRAINT [FK_Dim_Prijava_Dim_Student];&#xA;END&#xA;&#xA;&#xA;IF EXISTS (&#xA;    SELECT * FROM sysobjects&#xA;    WHERE id = OBJECT_ID(N'[dbo].[Dim_Student]')&#xA;      AND xtype = 'U'&#xA;)&#xA;BEGIN&#xA;    DROP TABLE [dbo].[Dim_Student];&#xA;END&#xA;&#xA;CREATE TABLE [dbo].[Dim_Student](&#xA;&#x9;[student_SID] [int] IDENTITY(1,1) NOT NULL,&#xA;&#x9;[id_student] [int] NOT NULL,&#xA;&#x9;[drzava_rodjenja] [nvarchar](100) NULL,&#xA;&#x9;[naziv_srednje_skole] [nvarchar](200) NULL,&#xA; CONSTRAINT [PK_Dim_Student] PRIMARY KEY CLUSTERED &#xA;(&#xA;&#x9;[student_SID] ASC&#xA;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]&#xA;) ON [PRIMARY]&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{478DCF84-0928-4E6C-95A4-A5B58A305521}"
+      DTS:From="Package\Execute SQL Task"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\ETL Dim_Student" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="160,41.6"
+          Id="Package\ETL Dim_Student"
+          TopLeft="187.99999002864,138.966665738556" />
+        <NodeLayout
+          Size="164.8,41.6"
+          Id="Package\Execute SQL Task"
+          TopLeft="183.333323316442,38.9999997287989" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="266.866656672541,80.5999997287989">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,58.3666660097571"
+              Start="0,0"
+              End="0,50.8666660097571">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,50.8666660097571" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\ETL Dim_Student">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="130.4,41.6"
+          Id="Package\ETL Dim_Student\Upisi u DW"
+          TopLeft="202.999996975064,199.999997019768" />
+        <NodeLayout
+          Size="179.2,41.6"
+          Id="Package\ETL Dim_Student\Citanje tabele student"
+          TopLeft="213.999996811152,30.999999538064" />
+        <EdgeLayout
+          Id="Package\ETL Dim_Student.Paths[OLE DB Source Output]"
+          TopLeft="303.599996811152,72.599999538064">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-35.3999998360873,127.399997481704"
+              Start="0,0"
+              End="-35.3999998360873,119.899997481704">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,59.6999987408519" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,59.6999987408519"
+                    Point2="0,63.6999987408519"
+                    Point3="-4,63.6999987408519" />
+                  <mssgle:LineSegment
+                    End="-31.3999998360873,63.6999987408519" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-31.3999998360873,63.6999987408519"
+                    Point2="-35.3999998360873,63.6999987408519"
+                    Point3="-35.3999998360873,67.6999987408519" />
+                  <mssgle:LineSegment
+                    End="-35.3999998360873,119.899997481704" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <AnnotationLayout
+          Text="Vrsimo SQL upit za selektovanje svih redova iz tabele student, gde ukljucujemo i podatak o &#xA;nazivu drzave, kao i nazivu srednje skole. *(da li da menjamo null sa nekom vrednoscu?)&#xA;"
+          ParentId="Package\ETL Dim_Student"
+          FontInfo="{assembly:Null}"
+          Size="592.8,80"
+          Id="14f08638-9f25-4fac-a63e-6587854d6b6c"
+          TopLeft="466.999993041158,148.999997779727" />
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Dim_Student\Citanje tabele student">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\ETL Dim_Student\Upisi u DW">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
