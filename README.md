@@ -26,6 +26,9 @@ This project analyzes student efficiency and academic performance using an ETL w
 - Processed data tables
 - Power BI visualizations and reports
 
+## Dashboard Preview
+![Dashboard Preview](ETL/powerbi-dashboard/dashboard_preview.png)
+
 ## Repository Structure
 - Source files  
 - Transformation scripts  
