@@ -1,7 +1,7 @@
 # Student Efficiency Analysis through ETL Process
 
-- database/ → SQL schema
-- etl/ → ETL pipeline implementation
+- ETL-main/ → SQL schema
+- ETL-master/ → ETL pipeline implementation
 - powerbi/ → visualization
   
 ## Project Overview
