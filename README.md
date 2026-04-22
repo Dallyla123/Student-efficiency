@@ -1,5 +1,9 @@
 # Student Efficiency Analysis through ETL Process
 
+- database/ → SQL schema
+- etl/ → ETL pipeline implementation
+- powerbi/ → visualization
+  
 ## Project Overview
 This project analyzes student efficiency and academic performance using an ETL workflow combined with data visualization techniques. The goal was to transform raw student-related data into structured datasets suitable for analysis and to identify factors influencing academic outcomes.
 
